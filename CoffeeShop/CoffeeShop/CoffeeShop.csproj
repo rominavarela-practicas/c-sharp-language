@@ -43,19 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\MeasurementUnit.cs" />
-    <Compile Include="Enums\MilkType.cs" />
-    <Compile Include="Enums\RoastLevel.cs" />
-    <Compile Include="Ingredients\Impl\Coffee.cs" />
-    <Compile Include="Ingredients\Ingredient.cs" />
-    <Compile Include="Ingredients\IngredientNameComparer.cs" />
-    <Compile Include="Ingredients\Impl\Milk.cs" />
-    <Compile Include="Ingredients\Impl\Water.cs" />
+    <Compile Include="Inventory\dao\InventoryItemsDao.cs" />
+    <Compile Include="Inventory\model\ItemVariety.cs" />
+    <Compile Include="Inventory\model\ItemGroup.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="InventoryItems.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

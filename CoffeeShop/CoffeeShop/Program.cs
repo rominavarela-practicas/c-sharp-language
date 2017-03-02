@@ -1,5 +1,5 @@
-﻿using CoffeeShop.Enums;
-using CoffeeShop.Ingredients;
+﻿using CoffeeShop.Inventory.dao;
+using CoffeeShop.Inventory.model;
 using System;
 
 namespace CoffeeShop
@@ -8,25 +8,54 @@ namespace CoffeeShop
     {
         static void Main(string[] args)
         {
-            Ingredient[] ingredients =
-            {
-                new Water(),
-                new Coffee(RoastLevel.Light),
-                new Coffee(RoastLevel.Medium),
-                new Coffee(RoastLevel.Dark),
-                new Milk(MilkType.Regular),
-                new Milk(MilkType.Light),
-                new Milk(MilkType.Soy),
-                new Milk(MilkType.Coconout)
-            };
+            InventoryItemsDao _InventoryItemsDao = InventoryItemsDao.Singleton;
 
-            Console.WriteLine("Coffee Shop Inventory\n");
-            foreach (Ingredient ingredient in ingredients)
+            ItemGroup itemGroup;
+            ItemVariety itemVariety;
+
+            while(true)
             {
-                Console.WriteLine("{0} ${1}/{2}" , ingredient.getDetail(), ingredient.CostPerUnit, ingredient.Unit);
+                Console.WriteLine("-----------------------");
+                Console.WriteLine("Cofee Shop Inventory");
+                Console.WriteLine("-----------------------");
+
+                itemGroup = getItemGroup();
+                itemVariety = getItemVariety(itemGroup);
+                
+                Console.WriteLine("-----------------------");
+                Console.WriteLine("Cost: ${0} / {1} {2} Pack", itemVariety.PackCost, itemVariety.PackSize, itemGroup.Unit);
+                Console.WriteLine("\n\n\n");
+            }
+        }
+
+        static ItemGroup getItemGroup()
+        {
+            InventoryItemsDao _InventoryItemsDao = InventoryItemsDao.Singleton;
+            string itemGroup;
+            
+            foreach (ItemGroup group in _InventoryItemsDao.ItemGroups)
+            {
+                Console.Write("[ {0} ] ", group.Name);
             }
 
-            Console.ReadLine();
+            itemGroup = Console.ReadLine();
+
+            return _InventoryItemsDao[itemGroup];
+        }
+
+        static ItemVariety getItemVariety(ItemGroup itemGroup)
+        {
+            InventoryItemsDao _InventoryItemsDao = InventoryItemsDao.Singleton;
+            string itemVariety;
+
+
+            foreach (ItemVariety variety in itemGroup.Varieties)
+            {
+                Console.Write("[ {0} ] ", variety.Name);
+            }
+
+            itemVariety = Console.ReadLine();
+            return _InventoryItemsDao[itemGroup, itemVariety];
         }
     }
 }
