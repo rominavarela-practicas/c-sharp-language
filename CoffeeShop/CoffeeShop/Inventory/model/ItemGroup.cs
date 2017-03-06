@@ -2,7 +2,7 @@
 
 namespace CoffeeShop.Inventory.model
 {
-    class ItemGroup
+    public class ItemGroup
     {
         public string Name { get; set; }
 

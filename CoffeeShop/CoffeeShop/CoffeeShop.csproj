@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Inventory\dao\InventoryItemsDao.cs" />
+    <Compile Include="Inventory\dao\InventoryItemsDaoSingleton.cs" />
     <Compile Include="Inventory\model\ItemVariety.cs" />
     <Compile Include="Inventory\model\ItemGroup.cs" />
     <Compile Include="Program.cs" />

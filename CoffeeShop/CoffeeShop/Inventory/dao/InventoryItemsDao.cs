@@ -1,32 +1,19 @@
 ﻿using CoffeeShop.Inventory.model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace CoffeeShop.Inventory.dao
 {
-    class InventoryItemsDao
+    public partial class InventoryItemsDao
     {
-        static private InventoryItemsDao _Singleton;
-        static public InventoryItemsDao Singleton
-        {
-            get
-            {
-                if (_Singleton == null)
-                {
-                    _Singleton = new InventoryItemsDao();
-                }
-                return _Singleton;
-            }
-        }
-
-        List<ItemGroup> _ItemGroups;
-        public List<ItemGroup> ItemGroups { get { return _ItemGroups; } }
+        public List<ItemGroup> ItemGroups { get; set; }
 
         private InventoryItemsDao()
         {
             var XGroups = XDocument.Load("InventoryItems.xml").Root.Elements("group");
-            _ItemGroups = (from itemGroup in XGroups
+            ItemGroups = (from itemGroup in XGroups
                            select new ItemGroup
                            {
                                Name = (string)itemGroup.Element("name"),
@@ -45,7 +32,7 @@ namespace CoffeeShop.Inventory.dao
         {
             get
             {
-                return (from itemGroup in _ItemGroups
+                return (from itemGroup in ItemGroups
                         where itemGroup.Name == Group
                         select itemGroup).First();
             }

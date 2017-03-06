@@ -1,6 +1,6 @@
 ﻿namespace CoffeeShop.Inventory.model
 {
-    class ItemVariety
+    public class ItemVariety
     {
         public string Name { get; set; }
 
