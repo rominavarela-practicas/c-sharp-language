@@ -43,10 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Inventory\dao\InventoryItemsDao.cs" />
-    <Compile Include="Inventory\dao\InventoryItemsDaoSingleton.cs" />
-    <Compile Include="Inventory\model\ItemVariety.cs" />
-    <Compile Include="Inventory\model\ItemGroup.cs" />
+    <Compile Include="Inventory\bo\InventoryBo.cs" />
+    <Compile Include="Inventory\dao\InventoryDao.cs" />
+    <Compile Include="Inventory\dao\InventoryDaoSingleton.cs" />
+    <Compile Include="Inventory\model\InventoryItem.cs" />
+    <Compile Include="Inventory\model\InventoryGroup.cs" />
+    <Compile Include="Menu\bo\MenuBo.cs" />
+    <Compile Include="Menu\dao\MenuDao.cs" />
+    <Compile Include="Menu\dao\MenuDaoSingleton.cs" />
+    <Compile Include="Menu\model\Ingredient.cs" />
+    <Compile Include="Menu\model\MenuGroup.cs" />
+    <Compile Include="Menu\model\MenuItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -54,10 +61,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="InventoryItems.xml">
+    <None Include="Inventory.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Menu.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

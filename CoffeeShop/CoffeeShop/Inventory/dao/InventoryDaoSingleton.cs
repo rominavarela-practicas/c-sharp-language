@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace CoffeeShop.Inventory.dao
 {
-    public partial class InventoryItemsDao
+    public partial class InventoryDao
     {
         static private Task _SingletonTask;
-        static private InventoryItemsDao _Singleton;
-        static public InventoryItemsDao Singleton
+        static private InventoryDao _Singleton;
+        static public InventoryDao Singleton
         {
             get
             {
@@ -18,7 +14,7 @@ namespace CoffeeShop.Inventory.dao
                 {
                     if (_SingletonTask == null)
                     {
-                        _SingletonTask = new Task(() => { _Singleton = new InventoryItemsDao(); });
+                        _SingletonTask = new Task(() => { _Singleton = new InventoryDao(); });
                         _SingletonTask.Start();
                     }
                     _SingletonTask.Wait();
