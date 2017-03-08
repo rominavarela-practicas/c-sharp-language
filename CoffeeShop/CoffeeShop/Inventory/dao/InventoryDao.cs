@@ -7,22 +7,24 @@ namespace CoffeeShop.Inventory.dao
 {
     public partial class InventoryDao
     {
-        public List<InventoryGroup> ItemGroups { get; set; }
+        public List<InventoryItem> Items { get; set; }
 
         private InventoryDao()
         {
             var XInventory = XDocument.Load(_Path).Root;
-            ItemGroups = (from itemGroup in XInventory.Elements("group")
-                          select new InventoryGroup
-                           {
-                               Name = (string)itemGroup.Element("name"),
-                               Unit = (string)itemGroup.Element("unit"),
-                               Items = (from item in itemGroup.Elements("items").Elements("item")
-                                            select new InventoryItem
+            Items = (from itemGroup in XInventory.Elements("inventory-item")
+                          select new InventoryItem
+                          {
+                              Key = (string)itemGroup.Element("key"),
+                              Value = (string)itemGroup.Element("value"),
+                              Unit = (string)itemGroup.Element("unit"),
+                              Options = (from option in itemGroup.Elements("inventory-item-options").Elements("inventory-item-option")
+                                            select new InventoryItemOption
                                             {
-                                                Name = (string)item.Element("name"),
-                                                PackSize = (decimal)item.Element("pack-size"),
-                                                PackCost = (decimal)item.Element("pack-cost")
+                                                Key = (string)option.Element("key"),
+                                                Value = (string)option.Element("value"),
+                                                PackSize = (decimal)option.Element("pack-size"),
+                                                PackCost = (decimal)option.Element("pack-cost")
                                             }).ToList()
                            }).ToList();
         }

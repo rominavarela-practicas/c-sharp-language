@@ -12,26 +12,26 @@ namespace CoffeeShop.Menu.bo
     {
         MenuDao dao;
         
-        public List<MenuGroup> ItemGroups { get { return dao.ItemGroups; } }
+        public List<MenuItem> Items { get { return dao.Items; } }
 
         public MenuBo()
         {
             dao = MenuDao.Singleton;
         }
 
-        public MenuGroup GetGroup(string GroupName)
+        public MenuItem GetItem(string ItemKey)
         {
-            return dao.ItemGroups.Find((group) => { return group.Name == GroupName; });
+            return dao.Items.Find((item) => { return item.Key == ItemKey; });
         }
 
-        public MenuItem GetItem(MenuGroup Group, string ItemName)
+        public MenuItemOption GetItemOption(MenuItem Item, string OptionKey)
         {
-            return Group.Items.Find((item) => { return item.Name == ItemName; });
+            return Item.Options.Find((option) => { return option.Key == OptionKey; });
         }
 
-        public MenuItem GetItem(string GroupName, string ItemName)
+        public MenuItemOption GetItemOption(string ItemKey, string OptionKey)
         {
-            return GetGroup(GroupName).Items.Find((item) => { return item.Name == ItemName; });
+            return GetItem(ItemKey).Options.Find((option) => { return option.Key == OptionKey; });
         }
     }
 }

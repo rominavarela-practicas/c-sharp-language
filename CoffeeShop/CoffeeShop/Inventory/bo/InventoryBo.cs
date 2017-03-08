@@ -9,26 +9,26 @@ namespace CoffeeShop.Inventory.bo
     {
         InventoryDao dao;
 
-        public List<InventoryGroup> ItemGroups { get { return dao.ItemGroups; } }
+        public List<InventoryItem> Items { get { return dao.Items; } }
 
         public InventoryBo()
         {
             dao = InventoryDao.Singleton;
         }
-
-        public InventoryGroup GetGroup(string GroupName)
+        
+        public InventoryItem GetItem(string ItemKey)
         {
-            return ItemGroups.Find((group) => { return group.Name == GroupName; });
+            return dao.Items.Find((item) => { return item.Key == ItemKey; });
         }
 
-        public InventoryItem GetItem(InventoryGroup Group, string ItemName)
+        public InventoryItemOption GetItemOption(InventoryItem Item, string OptionKey)
         {
-            return Group.Items.Find((item) => { return item.Name == ItemName; });
+            return Item.Options.Find((option) => { return option.Key == OptionKey; });
         }
 
-        public InventoryItem GetItem(string GroupName, string ItemName)
+        public InventoryItemOption GetItemOption(string ItemKey, string OptionKey)
         {
-            return GetGroup(GroupName).Items.Find((item) => { return item.Name == ItemName; });
+            return GetItem(ItemKey).Options.Find((option) => { return option.Key == OptionKey; });
         }
     }
 }

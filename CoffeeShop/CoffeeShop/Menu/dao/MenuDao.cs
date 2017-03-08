@@ -1,11 +1,8 @@
 ﻿using CoffeeShop.Inventory.bo;
 using CoffeeShop.Inventory.model;
 using CoffeeShop.Menu.model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace CoffeeShop.Menu.dao
@@ -13,30 +10,32 @@ namespace CoffeeShop.Menu.dao
     public partial class MenuDao
     {
         InventoryBo Inventory;
-        public List<MenuGroup> ItemGroups { get; set; }
+        public List<MenuItem> Items { get; set; }
 
         private MenuDao()
         {
             Inventory = new InventoryBo();
 
             var XMenu = XDocument.Load(_Path).Root;
-            ItemGroups = (from itemGroup in XMenu.Elements("group")
-                          select new MenuGroup
+            Items = (from item in XMenu.Elements("menu-item")
+                          select new MenuItem
                           {
-                              Name = (string)itemGroup.Element("name"),
-                              BasePrice = (decimal)itemGroup.Element("base-price"),
-                              Items = (from item in itemGroup.Elements("items").Elements("item")
-                                       select new MenuItem
+                              Key = (string)item.Element("key"),
+                              Value = (string)item.Element("value"),
+                              BasePrice = (decimal)item.Element("base-price"),
+                              Options = (from option in item.Elements("menu-item-options").Elements("menu-item-option")
+                                       select new MenuItemOption
                                        {
-                                           Name = (string)item.Element("name"),
-                                           Recipe = (from ingredient in item.Elements("recipe").Elements("ingredient")
+                                           Key = (string)option.Element("key"),
+                                           Value = (string)option.Element("value"),
+                                           Recipe = (from ingredient in option.Elements("recipe").Elements("ingredient")
                                                      select new Ingredient
                                                      {
-                                                         Group = (string)ingredient.Element("group"),
+                                                         Item = (string)ingredient.Element("item"),
                                                          Quantity = (decimal)ingredient.Element("quantity"),
-                                                         Options = ingredient.Element("item") == null ? 
-                                                            Inventory.GetGroup((string)ingredient.Element("group")).Items : 
-                                                            new List<InventoryItem>(new InventoryItem[]{ Inventory.GetItem((string)ingredient.Element("group"), (string)ingredient.Element("item")) })
+                                                         Options = ingredient.Element("item-option") == null ? 
+                                                            Inventory.GetItem((string)ingredient.Element("item")).Options : 
+                                                            new List<InventoryItemOption>(new InventoryItemOption[]{ Inventory.GetItemOption((string)ingredient.Element("item"), (string)ingredient.Element("item-option")) })
                                                      }).ToList()
                                        }).ToList()
                           }).ToList();

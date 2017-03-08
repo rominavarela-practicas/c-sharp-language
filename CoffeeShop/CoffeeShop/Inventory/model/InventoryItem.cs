@@ -1,11 +1,15 @@
-﻿namespace CoffeeShop.Inventory.model
+﻿using System.Collections.Generic;
+
+namespace CoffeeShop.Inventory.model
 {
     public class InventoryItem
     {
-        public string Name { get; set; }
+        public string Key { get; set; }
 
-        public decimal PackSize { get; set; }
+        public string Value { get; set; }
 
-        public decimal PackCost { get; set; }
+        public string Unit { get; set; }
+
+        public List<InventoryItemOption> Options { get; set; }
     }
 }
