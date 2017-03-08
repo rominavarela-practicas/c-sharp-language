@@ -1,4 +1,6 @@
-﻿using CoffeeShop.Menu.bo;
+﻿using CoffeeShop.Inventory.dao;
+using CoffeeShop.Menu.bo;
+using CoffeeShop.Menu.dao;
 using CoffeeShop.Menu.model;
 using System;
 using System.Collections.Generic;

@@ -22,5 +22,23 @@ namespace CoffeeShop.Menu.dao
                 return _Singleton;
             }
         }
+
+        static private string _Path = "Menu.xml";
+        static public void SetPath(string Path)
+        {
+            if (_Path == Path)
+            {
+                return;
+            }
+
+            if (_SingletonTask != null)
+            {
+                _SingletonTask.Wait();
+            }
+
+            _Path = Path;
+            _Singleton = null;
+            _SingletonTask = null;
+        }
     }
 }
