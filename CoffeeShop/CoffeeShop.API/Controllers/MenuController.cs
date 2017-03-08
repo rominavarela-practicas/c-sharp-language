@@ -1,13 +1,10 @@
 ﻿using CoffeeShop.API.Models;
-using CoffeeShop.Inventory.dao;
+using CoffeeShop.Inventory.model;
 using CoffeeShop.Menu.bo;
-using CoffeeShop.Menu.dao;
 using CoffeeShop.Menu.model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace CoffeeShop.API.Controllers
@@ -23,31 +20,40 @@ namespace CoffeeShop.API.Controllers
 
         [AcceptVerbs(WebRequestMethods.Http.Get)]
         [Route("api/menu")]
-        public KeyValue<String,String>[] GetMenuItems()
+        public List<KeyValue> GetMenuItems()
         {
-            var Count = Menu.Items.Count;
-            KeyValue<String, String>[] Options = new KeyValue<String, String>[Count];
-
-            for(int i = 0; i < Count; i++ )
+            List<KeyValue> Options = new List<KeyValue>();
+            foreach(MenuItem item in Menu.Items)
             {
-                Options[i] = new KeyValue<string, string> { Key = Menu.Items[i].Key, Value = Menu.Items[i].Value };
+                Options.Add(new KeyValue { Key = item.Key, Value = item.Value });
             }
             return Options;
         }
 
         [HttpGet]
         [Route("api/menu/{ItemKey}")]
-        public KeyValue<String, String>[] GetMenuItems(string ItemKey)
+        public Dictionary<String, List<KeyValue>> GetMenuItemOptions(string ItemKey)
         {
+            OptionMap<KeyValue> Map = new OptionMap<KeyValue>();
             MenuItem Item = Menu.GetItem(ItemKey);
-            var Count = Item.Options.Count;
-            KeyValue<String, String>[] Options = new KeyValue<String, String>[Count];
-
-            for(int i = 0; i < Count; i++ )
+            
+            foreach(MenuItemOption option in Item.Options)
             {
-                Options[i] = new KeyValue<string, string> { Key = Item.Options[i].Key, Value = Item.Options[i].Value };
+                Map.Add("option", new KeyValue { Key = option.Key, Value = option.Value });
             }
-            return Options;
+
+            foreach (Ingredient ingredient in Item.Options[0].Recipe)
+            {
+                if(ingredient.Options.Count > 1)
+                {
+                    foreach(InventoryItemOption option in ingredient.Options)
+                    {
+                        Map.Add(ingredient.Item, new KeyValue { Key = option.Key, Value = option.Value });
+                    }
+                }
+            }
+
+            return Map.GetSendableObject();
         }
     }
 }

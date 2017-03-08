@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CoffeeShop.API.Models
+﻿namespace CoffeeShop.API.Models
 {
-    public class KeyValue<KeyType,ValueType>
+    public class KeyValue
     {
-        public KeyType Key { get; set; }
-        public ValueType Value { get; set; }
+        public string Key { get; set; }
+        public string Value { get; set; }
     }
 }
