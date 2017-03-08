@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<inventory>
+    <group>
+      <name>Coffee</name>
+      <unit>kg</unit>
+      <items>
+        <item>
+          <name>Light Roast</name>
+          <pack-size>5</pack-size>
+          <pack-cost>10</pack-cost>
+        </item>
+        <item>
+          <name>Medium Roast</name>
+          <pack-size>5</pack-size>
+          <pack-cost>15</pack-cost>
+        </item>
+        <item>
+          <name>Dark Roast</name>
+          <pack-size>5</pack-size>
+          <pack-cost>20</pack-cost>
+        </item>
+      </items>
+    </group>
+  <group>
+    <name>Milk</name>
+    <unit>lt</unit>
+    <items>
+      <item>
+        <name>Regular</name>
+        <pack-size>1</pack-size>
+        <pack-cost>1</pack-cost>
+      </item>
+      <item>
+        <name>Light</name>
+        <pack-size>1</pack-size>
+        <pack-cost>1.2</pack-cost>
+      </item>
+      <item>
+        <name>Soy</name>
+        <pack-size>1</pack-size>
+        <pack-cost>1.2</pack-cost>
+      </item>
+      <item>
+        <name>Coconout</name>
+        <pack-size>1</pack-size>
+        <pack-cost>1.5</pack-cost>
+      </item>
+    </items>
+  </group>
+</inventory>

@@ -11,7 +11,7 @@ namespace CoffeeShop.Inventory.dao
 
         private InventoryDao()
         {
-            var XGroups = XDocument.Load("Inventory.xml").Root.Elements("group");
+            var XGroups = XDocument.Load("C:\\Users\\rominavarela\\workspace\\demo\\c-sharp-lang\\CoffeeShop\\CoffeeShop\\Inventory.xml").Root.Elements("group");
             ItemGroups = (from itemGroup in XGroups
                            select new InventoryGroup
                            {

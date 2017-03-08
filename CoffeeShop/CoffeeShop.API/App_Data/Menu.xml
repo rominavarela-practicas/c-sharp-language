@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<items>
+  <group>
+    <name>Expresso</name>
+    <base-price>1.0</base-price>
+    <items>
+      <item>
+        <name>Small Shot</name>
+        <recipe>
+          <ingredient>
+            <group>Coffee</group>
+            <item>Dark Roast</item>
+            <quantity>0.07</quantity>
+          </ingredient>
+        </recipe>
+      </item>
+      <item>
+        <name>Shot</name>
+        <recipe>
+          <ingredient>
+            <group>Coffee</group>
+            <item>Dark Roast</item>
+            <quantity>0.14</quantity>
+          </ingredient>
+        </recipe>
+      </item>
+    </items>
+  </group>
+  <group>
+    <name>Americano</name>
+    <base-price>0.5</base-price>
+    <items>
+      <item>
+        <name>Small Cup</name>
+        <recipe>
+          <ingredient>
+            <group>Coffee</group>
+            <item>Medium Roast</item>
+            <quantity>0.07</quantity>
+          </ingredient>
+        </recipe>
+      </item>
+      <item>
+        <name>Cup</name>
+        <recipe>
+          <ingredient>
+            <group>Coffee</group>
+            <item>Medium Roast</item>
+            <quantity>0.14</quantity>
+          </ingredient>
+        </recipe>
+      </item>
+    </items>
+  </group>
+  <group>
+    <name>Latte</name>
+    <base-price>1.5</base-price>
+    <items>
+      <item>
+        <name>Small Cup</name>
+        <recipe>
+          <ingredient>
+            <group>Coffee</group>
+            <item>Dark Roast</item>
+            <quantity>0.07</quantity>
+          </ingredient>
+          <ingredient>
+            <group>Milk</group>
+            <quantity>0.30</quantity>
+          </ingredient>
+        </recipe>
+      </item>
+      <item>
+        <name>Cup</name>
+        <recipe>
+          <ingredient>
+            <group>Coffee</group>
+            <item>Dark Roast</item>
+            <quantity>0.14</quantity>
+          </ingredient>
+          <ingredient>
+            <group>Milk</group>
+            <quantity>0.50</quantity>
+          </ingredient>
+        </recipe>
+      </item>
+    </items>
+  </group>
+</items>

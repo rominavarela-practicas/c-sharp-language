@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeShop.Menu.bo
 {
-    class MenuBo
+    public class MenuBo
     {
         MenuDao dao;
         
