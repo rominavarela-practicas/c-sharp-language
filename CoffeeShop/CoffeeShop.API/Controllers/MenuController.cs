@@ -1,12 +1,8 @@
 ﻿using CoffeeShop.API.Models;
-using CoffeeShop.Cashier.bo;
-using CoffeeShop.Cashier.model;
 using CoffeeShop.Inventory.bo;
-using CoffeeShop.Inventory.dao;
 using CoffeeShop.Inventory.model;
 using CoffeeShop.Menu.bo;
 using CoffeeShop.Menu.model;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
@@ -16,12 +12,10 @@ namespace CoffeeShop.API.Controllers
     public class MenuController : ApiController
     {
         MenuBo Menu;
-        CashierBo Cashier;
 
         public MenuController()
         {
             Menu = new MenuBo();
-            Cashier = new CashierBo();
         }
 
         [AcceptVerbs(WebRequestMethods.Http.Get)]
@@ -35,31 +29,8 @@ namespace CoffeeShop.API.Controllers
             }
             return Options;
         }
-        
-        [HttpGet]
-        [Route("api/menu/{ItemKey}")]
-        public Concept GetMenuItemPrice(string ItemKey, [FromUri] string[] option)
-        {
-            string ItemOption = null;
-            Dictionary<String, String> RecipeOptions = new Dictionary<String, String>();
 
-            foreach (String o in option)
-            {
-                String[] oSplit = o.Split(':');
-                if(oSplit.Length == 2 && !RecipeOptions.ContainsKey(oSplit[0]))
-                {
-                    RecipeOptions.Add(oSplit[0], oSplit[1]);
-                }
-                else if (oSplit.Length == 1 && ItemOption == null)
-                {
-                    ItemOption = oSplit[0];
-                }
-            }
-
-            return Cashier.GetMenuItemConcept(ItemKey, ItemOption, RecipeOptions);
-        }
-
-        [HttpGet]
+        [AcceptVerbs(WebRequestMethods.Http.Get)]
         [Route("api/menu/{ItemKey}/options")]
         public List<KeyValue> GetMenuItemOptions(string ItemKey)
         {
