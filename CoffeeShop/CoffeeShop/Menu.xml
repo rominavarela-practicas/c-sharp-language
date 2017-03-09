@@ -18,7 +18,7 @@
       </menu-item-option>
       <menu-item-option>
         <key>medium</key>
-        <value>Shot</value>
+        <value>Medium Shot</value>
         <recipe>
           <ingredient>
             <item>coffee</item>
@@ -47,7 +47,7 @@
       </menu-item-option>
       <menu-item-option>
         <key>medium</key>
-        <value>Cup</value>
+        <value>Medium Cup</value>
         <recipe>
           <ingredient>
             <item>coffee</item>
@@ -80,7 +80,7 @@
       </menu-item-option>
       <menu-item-option>
         <key>medium</key>
-        <value>Cup</value>
+        <value>Medium Cup</value>
         <recipe>
           <ingredient>
             <item>coffee</item>

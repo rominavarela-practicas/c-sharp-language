@@ -1,4 +1,6 @@
 ﻿using CoffeeShop.API.Models;
+using CoffeeShop.Inventory.bo;
+using CoffeeShop.Inventory.dao;
 using CoffeeShop.Inventory.model;
 using CoffeeShop.Menu.bo;
 using CoffeeShop.Menu.model;
@@ -29,31 +31,93 @@ namespace CoffeeShop.API.Controllers
             }
             return Options;
         }
-
+        
         [HttpGet]
         [Route("api/menu/{ItemKey}")]
-        public Dictionary<String, List<KeyValue>> GetMenuItemOptions(string ItemKey)
+        public KeyValue[] GetMenuItemPrice(string ItemKey, [FromUri] string[] option)
         {
-            OptionMap<KeyValue> Map = new OptionMap<KeyValue>();
             MenuItem Item = Menu.GetItem(ItemKey);
+            string Concept = Item.Value;
+            decimal Total = Item.BasePrice;
+            InventoryBo Inventory = new InventoryBo();
             
-            foreach(MenuItemOption option in Item.Options)
+            // Map Options Query
+            Dictionary<String, String> OptionsQuery = new Dictionary<String, String>();
+            foreach (String o in option)
             {
-                Map.Add("option", new KeyValue { Key = option.Key, Value = option.Value });
+                String[] oSplit = o.Split(':');
+                if(oSplit.Length == 2 && !OptionsQuery.ContainsKey(oSplit[0]))
+                {
+                    OptionsQuery.Add(oSplit[0], oSplit[1]);
+                }
             }
+
+            // Set Item Option
+            MenuItemOption SelectedMenuItem = Item.Options[0];
+            if (OptionsQuery.ContainsKey("item-option"))
+            {
+                string QueriedOptionKey = OptionsQuery["item-option"];
+                int SelectedIndex = Item.Options.FindIndex( OptionItem => { return OptionItem.Key == QueriedOptionKey; });
+                if(SelectedIndex > 0)
+                {
+                    SelectedMenuItem = Item.Options[SelectedIndex];
+                }
+            }
+            Concept += " " + SelectedMenuItem.Value;
+
+            // Set Ingredient Options
+            foreach (Ingredient ingredient in SelectedMenuItem.Recipe)
+            {
+                InventoryItemOption SelectedIngredient = ingredient.Options[0];
+                if (OptionsQuery.ContainsKey(ingredient.Item))
+                {
+                    string QueriedOptionKey = OptionsQuery[ingredient.Item];
+                    int SelectedIndex = ingredient.Options.FindIndex(OptionItem => { return OptionItem.Key == QueriedOptionKey; });
+                    if (SelectedIndex > 0)
+                    {
+                        SelectedIngredient = ingredient.Options[SelectedIndex];
+                        Concept += " with " + SelectedIngredient.Value + " " + Inventory.GetItem(ingredient.Item).Value;
+                    }
+                }
+                Total += ingredient.Quantity * SelectedIngredient.PackCost / SelectedIngredient.PackSize;
+            }
+
+            return new KeyValue[] {
+                new KeyValue { Key = "concept", Value = Concept },
+                new KeyValue { Key= "total", Value = Total.ToString() }
+            };
+        }
+
+        [HttpGet]
+        [Route("api/menu/{ItemKey}/options")]
+        public List<KeyValue> GetMenuItemOptions(string ItemKey)
+        {
+            List<KeyValue> Options = new List<KeyValue>();
+            MenuItem Item = Menu.GetItem(ItemKey);
+            InventoryBo Inventory = new InventoryBo();
+
+            List<KeyValue> OptionsBranch = new List<KeyValue>();
+            foreach (MenuItemOption option in Item.Options)
+            {
+                OptionsBranch.Add(new KeyValue { Key = option.Key, Value = option.Value });
+            }
+            Options.Add(new KeyValueTree { Key = "item-option", Value = Item.Value + " Option", Options = OptionsBranch });
 
             foreach (Ingredient ingredient in Item.Options[0].Recipe)
             {
                 if(ingredient.Options.Count > 1)
                 {
-                    foreach(InventoryItemOption option in ingredient.Options)
+                    OptionsBranch = new List<KeyValue>();
+                    foreach (InventoryItemOption option in ingredient.Options)
                     {
-                        Map.Add(ingredient.Item, new KeyValue { Key = option.Key, Value = option.Value });
+                        OptionsBranch.Add(new KeyValue { Key = option.Key, Value = option.Value });
                     }
+                    InventoryItem item = Inventory.GetItem(ingredient.Item);
+                    Options.Add(new KeyValueTree { Key = item.Key, Value = item.Value, Options = OptionsBranch });
                 }
             }
 
-            return Map.GetSendableObject();
+            return Options;
         }
     }
 }
