@@ -1,4 +1,6 @@
 ﻿using CoffeeShop.API.Models;
+using CoffeeShop.Cashier.bo;
+using CoffeeShop.Cashier.model;
 using CoffeeShop.Inventory.bo;
 using CoffeeShop.Inventory.dao;
 using CoffeeShop.Inventory.model;
@@ -14,10 +16,12 @@ namespace CoffeeShop.API.Controllers
     public class MenuController : ApiController
     {
         MenuBo Menu;
+        CashierBo Cashier;
 
         public MenuController()
         {
             Menu = new MenuBo();
+            Cashier = new CashierBo();
         }
 
         [AcceptVerbs(WebRequestMethods.Http.Get)]
@@ -34,58 +38,25 @@ namespace CoffeeShop.API.Controllers
         
         [HttpGet]
         [Route("api/menu/{ItemKey}")]
-        public KeyValue[] GetMenuItemPrice(string ItemKey, [FromUri] string[] option)
+        public Concept GetMenuItemPrice(string ItemKey, [FromUri] string[] option)
         {
-            MenuItem Item = Menu.GetItem(ItemKey);
-            string Concept = Item.Value;
-            decimal Total = Item.BasePrice;
-            InventoryBo Inventory = new InventoryBo();
-            
-            // Map Options Query
-            Dictionary<String, String> OptionsQuery = new Dictionary<String, String>();
+            string ItemOption = null;
+            Dictionary<String, String> RecipeOptions = new Dictionary<String, String>();
+
             foreach (String o in option)
             {
                 String[] oSplit = o.Split(':');
-                if(oSplit.Length == 2 && !OptionsQuery.ContainsKey(oSplit[0]))
+                if(oSplit.Length == 2 && !RecipeOptions.ContainsKey(oSplit[0]))
                 {
-                    OptionsQuery.Add(oSplit[0], oSplit[1]);
+                    RecipeOptions.Add(oSplit[0], oSplit[1]);
+                }
+                else if (oSplit.Length == 1 && ItemOption == null)
+                {
+                    ItemOption = oSplit[0];
                 }
             }
 
-            // Set Item Option
-            MenuItemOption SelectedMenuItem = Item.Options[0];
-            if (OptionsQuery.ContainsKey("item-option"))
-            {
-                string QueriedOptionKey = OptionsQuery["item-option"];
-                int SelectedIndex = Item.Options.FindIndex( OptionItem => { return OptionItem.Key == QueriedOptionKey; });
-                if(SelectedIndex > 0)
-                {
-                    SelectedMenuItem = Item.Options[SelectedIndex];
-                }
-            }
-            Concept += " " + SelectedMenuItem.Value;
-
-            // Set Ingredient Options
-            foreach (Ingredient ingredient in SelectedMenuItem.Recipe)
-            {
-                InventoryItemOption SelectedIngredient = ingredient.Options[0];
-                if (OptionsQuery.ContainsKey(ingredient.Item))
-                {
-                    string QueriedOptionKey = OptionsQuery[ingredient.Item];
-                    int SelectedIndex = ingredient.Options.FindIndex(OptionItem => { return OptionItem.Key == QueriedOptionKey; });
-                    if (SelectedIndex > 0)
-                    {
-                        SelectedIngredient = ingredient.Options[SelectedIndex];
-                        Concept += " with " + SelectedIngredient.Value + " " + Inventory.GetItem(ingredient.Item).Value;
-                    }
-                }
-                Total += ingredient.Quantity * SelectedIngredient.PackCost / SelectedIngredient.PackSize;
-            }
-
-            return new KeyValue[] {
-                new KeyValue { Key = "concept", Value = Concept },
-                new KeyValue { Key= "total", Value = Total.ToString() }
-            };
+            return Cashier.GetMenuItemConcept(ItemKey, ItemOption, RecipeOptions);
         }
 
         [HttpGet]
@@ -101,7 +72,7 @@ namespace CoffeeShop.API.Controllers
             {
                 OptionsBranch.Add(new KeyValue { Key = option.Key, Value = option.Value });
             }
-            Options.Add(new KeyValueTree { Key = "item-option", Value = Item.Value + " Option", Options = OptionsBranch });
+            Options.Add(new KeyValueTree { Options = OptionsBranch });
 
             foreach (Ingredient ingredient in Item.Options[0].Recipe)
             {

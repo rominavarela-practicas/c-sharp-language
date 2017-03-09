@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cashier\bo\CashierBo.cs" />
+    <Compile Include="Cashier\model\Concept.cs" />
     <Compile Include="Inventory\bo\InventoryBo.cs" />
     <Compile Include="Inventory\dao\InventoryDao.cs" />
     <Compile Include="Inventory\dao\InventoryDaoSingleton.cs" />
