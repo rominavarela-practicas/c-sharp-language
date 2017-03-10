@@ -7,7 +7,7 @@ namespace CoffeeShop.Inventory.bo
 {
     public class InventoryBo
     {
-        InventoryDao dao;
+        private InventoryDao dao;
 
         public List<InventoryItem> Items { get { return dao.Items; } }
 
@@ -16,19 +16,19 @@ namespace CoffeeShop.Inventory.bo
             dao = InventoryDao.Singleton;
         }
         
-        public InventoryItem GetItem(string ItemKey)
+        public InventoryItem GetItem(string itemKey)
         {
-            return dao.Items.Find((item) => { return item.Key == ItemKey; });
+            return dao.Items.Find((item) => { return item.Key == itemKey; });
         }
 
-        public InventoryItemOption GetItemOption(InventoryItem Item, string OptionKey)
+        public InventoryItemOption GetItemOption(InventoryItem item, string optionKey)
         {
-            return Item.Options.Find((option) => { return option.Key == OptionKey; });
+            return item.Options.Find((option) => { return option.Key == optionKey; });
         }
 
-        public InventoryItemOption GetItemOption(string ItemKey, string OptionKey)
+        public InventoryItemOption GetItemOption(string itemKey, string optionKey)
         {
-            return GetItem(ItemKey).Options.Find((option) => { return option.Key == OptionKey; });
+            return GetItem(itemKey).Options.Find((option) => { return option.Key == optionKey; });
         }
     }
 }

@@ -11,8 +11,8 @@ namespace CoffeeShop.Inventory.dao
 
         private InventoryDao()
         {
-            var XInventory = XDocument.Load(_Path).Root;
-            Items = (from itemGroup in XInventory.Elements("inventory-item")
+            var document = XDocument.Load(_Path).Root;
+            Items = (from itemGroup in document.Elements("inventory-item")
                           select new InventoryItem
                           {
                               Key = (string)itemGroup.Element("key"),

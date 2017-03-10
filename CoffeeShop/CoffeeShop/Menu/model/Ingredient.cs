@@ -5,7 +5,7 @@ namespace CoffeeShop.Menu.model
 {
     public class Ingredient
     {
-        public string Item { get; set; }
+        public InventoryItem Item { get; set; }
 
         public List<InventoryItemOption> Options { get; set; }
 

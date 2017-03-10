@@ -9,15 +9,17 @@ namespace CoffeeShop.Menu.dao
 {
     public partial class MenuDao
     {
-        InventoryBo Inventory;
+        private InventoryBo inventory;
+
         public List<MenuItem> Items { get; set; }
 
         private MenuDao()
         {
-            Inventory = new InventoryBo();
+            inventory = new InventoryBo();
 
-            var XMenu = XDocument.Load(_Path).Root;
-            Items = (from item in XMenu.Elements("menu-item")
+            var document = XDocument.Load(_Path).Root;
+
+            Items = (from item in document.Elements("menu-item")
                           select new MenuItem
                           {
                               Key = (string)item.Element("key"),
@@ -31,11 +33,11 @@ namespace CoffeeShop.Menu.dao
                                            Recipe = (from ingredient in option.Elements("recipe").Elements("ingredient")
                                                      select new Ingredient
                                                      {
-                                                         Item = (string)ingredient.Element("item"),
+                                                         Item = inventory.GetItem((string)ingredient.Element("item")),
                                                          Quantity = (decimal)ingredient.Element("quantity"),
-                                                         Options = ingredient.Element("item-option") == null ? 
-                                                            Inventory.GetItem((string)ingredient.Element("item")).Options : 
-                                                            new List<InventoryItemOption>(new InventoryItemOption[]{ Inventory.GetItemOption((string)ingredient.Element("item"), (string)ingredient.Element("item-option")) })
+                                                         Options = ingredient.Element("item-option") == null ?
+                                                            inventory.GetItem((string)ingredient.Element("item")).Options : 
+                                                            new List<InventoryItemOption>(new InventoryItemOption[]{ inventory.GetItemOption((string)ingredient.Element("item"), (string)ingredient.Element("item-option")) })
                                                      }).ToList()
                                        }).ToList()
                           }).ToList();

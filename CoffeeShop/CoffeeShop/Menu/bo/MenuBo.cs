@@ -10,7 +10,7 @@ namespace CoffeeShop.Menu.bo
 {
     public class MenuBo
     {
-        MenuDao dao;
+        private MenuDao dao;
         
         public List<MenuItem> Items { get { return dao.Items; } }
 
@@ -19,19 +19,19 @@ namespace CoffeeShop.Menu.bo
             dao = MenuDao.Singleton;
         }
 
-        public MenuItem GetItem(string ItemKey)
+        public MenuItem GetItem(string itemKey)
         {
-            return dao.Items.Find((item) => { return item.Key == ItemKey; });
+            return dao.Items.Find((item) => { return item.Key == itemKey; });
         }
 
-        public MenuItemOption GetItemOption(MenuItem Item, string OptionKey)
+        public MenuItemOption GetItemOption(MenuItem item, string optionKey)
         {
-            return Item.Options.Find((option) => { return option.Key == OptionKey; });
+            return item.Options.Find((option) => { return option.Key == optionKey; });
         }
 
-        public MenuItemOption GetItemOption(string ItemKey, string OptionKey)
+        public MenuItemOption GetItemOption(string itemKey, string optionKey)
         {
-            return GetItem(ItemKey).Options.Find((option) => { return option.Key == OptionKey; });
+            return GetItem(itemKey).Options.Find((option) => { return option.Key == optionKey; });
         }
     }
 }

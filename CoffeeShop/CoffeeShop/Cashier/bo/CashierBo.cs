@@ -5,57 +5,52 @@ using CoffeeShop.Menu.bo;
 using CoffeeShop.Menu.model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoffeeShop.Cashier.bo
 {
     public class CashierBo
     {
-        InventoryBo Inventory;
-        MenuBo Menu;
+        private MenuBo menu;
 
         public CashierBo()
         {
-            Inventory = new InventoryBo();
-            Menu = new MenuBo();
+            menu = new MenuBo();
         }
 
-        public Concept GetMenuItemConcept(string ItemKey, string OptionKey, Dictionary<String, String> RecipeOptions)
+        public Concept CalcConcept(string itemKey, string optionKey, Dictionary<String, String> recipeOptions)
         {
-            MenuItem Item = Menu.GetItem(ItemKey);
-            Concept Concept = new model.Concept();
+            MenuItem selectedItem = menu.GetItem(itemKey);
+            MenuItemOption selectedOption = selectedItem.Options[0];
+            Concept concept = new model.Concept();
             
             // Custom menu option
-            MenuItemOption SelectedMenuOption = Item.Options[0];
-            if (OptionKey != null)
+            if (optionKey != null)
             {
-                int SelectedIndex = Item.Options.FindIndex(OptionItem => { return OptionItem.Key == OptionKey; });
-                if (SelectedIndex > 0)
+                int selectedIndex = selectedItem.Options.FindIndex(option => { return option.Key == optionKey; });
+                if (selectedIndex > 0)
                 {
-                    SelectedMenuOption = Item.Options[SelectedIndex];
+                    selectedOption = selectedItem.Options[selectedIndex];
                 }
             }
-            Concept.Name = Item.Value + " " + SelectedMenuOption.Value;
-            Concept.Total = SelectedMenuOption.Concept;
+            concept.Name = selectedItem.Value + " " + selectedOption.Value;
+            concept.Total = selectedOption.Concept;
 
             // Custom recipe options
-            foreach (Ingredient IngredientOption in SelectedMenuOption.Recipe)
+            foreach (Ingredient recipeOption in selectedOption.Recipe)
             {
-                if (RecipeOptions.ContainsKey(IngredientOption.Item))
+                if (recipeOptions.ContainsKey(recipeOption.Item.Key))
                 {
-                    string QueriedOptionKey = RecipeOptions[IngredientOption.Item];
-                    InventoryItemOption SelectedRecipeOption = IngredientOption.Options.Find(OptionItem => { return OptionItem.Key == QueriedOptionKey; });
-                    if (SelectedRecipeOption != null && SelectedRecipeOption.Concept > 0)
+                    string ingredientKey = recipeOptions[recipeOption.Item.Key];
+                    InventoryItemOption selectedIngredientOption = recipeOption.Options.Find(option => { return option.Key == ingredientKey; });
+                    if (selectedIngredientOption != null && selectedIngredientOption.Concept > 0)
                     {
-                        Concept.Name += " ( " + SelectedRecipeOption.Value + " " + Inventory.GetItem(IngredientOption.Item).Value + " )";
-                        Concept.Total += SelectedRecipeOption.Concept;
+                        concept.Name += " ( " + selectedIngredientOption.Value + " " + recipeOption.Item.Value + " )";
+                        concept.Total += selectedIngredientOption.Concept;
                     }
                 }
             }
 
-            return Concept;
+            return concept;
         }
     }
 }

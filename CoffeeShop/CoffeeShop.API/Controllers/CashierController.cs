@@ -43,13 +43,13 @@ namespace CoffeeShop.API.Controllers
                 }
             }
 
-            Concept concept = Cashier.GetMenuItemConcept(ItemKey, ItemOption, RecipeOptions);
+            Concept concept = Cashier.CalcConcept(ItemKey, ItemOption, RecipeOptions);
             return new Item { Value = concept.Name, Concept = concept.Total };
         }
 
         [AcceptVerbs(WebRequestMethods.Http.Get)]
         [Route("api/cashier/pricing/{ItemKey}")]
-        public Item GetConcept(string ItemKey)
+        public Item GetItemPricing(string ItemKey)
         {
             List<Item> QueryItems = (from pair in this.Request.GetQueryNameValuePairs()
                                     select new Item { Key = pair.Key, Value = pair.Value }).ToList();
@@ -59,7 +59,7 @@ namespace CoffeeShop.API.Controllers
 
         [AcceptVerbs(WebRequestMethods.Http.Post)]
         [Route("api/cashier/bill")]
-        public List<Item> GetBill([FromBody] List<Item> MenuItems)
+        public List<Item> GetItemsBill([FromBody] List<Item> MenuItems)
         {
             List<Item> Bill = new List<Item>();
             
