@@ -20,25 +20,26 @@ namespace CoffeeShop.API.Controllers
             Cashier = new CashierBo();
         }
 
-        [AcceptVerbs(WebRequestMethods.Http.Get)]
-        [Route("api/cashier/pricing/{ItemKey}")]
-        public Item GetConcept(string ItemKey)
+        private Item GetConcept(string ItemKey, ICollection<Item> Options )
         {
             string ItemOption = null;
             Dictionary<String, String> RecipeOptions = new Dictionary<String, String>();
 
-            foreach (KeyValuePair<string,string> QueryValue in this.Request.GetQueryNameValuePairs())
+            if (Options != null)
             {
-                if(QueryValue.Value.Length == 0)
+                foreach (var QueryValue in Options)
                 {
-                    if( ItemOption == null)
+                    if (QueryValue.Key == "option")
                     {
-                        ItemOption = QueryValue.Key;
+                        if (ItemOption == null)
+                        {
+                            ItemOption = QueryValue.Value;
+                        }
                     }
-                }
-                else if (!RecipeOptions.ContainsKey(QueryValue.Key))
-                {
-                    RecipeOptions.Add(QueryValue.Key, QueryValue.Value);
+                    else if (!RecipeOptions.ContainsKey(QueryValue.Key))
+                    {
+                        RecipeOptions.Add(QueryValue.Key, QueryValue.Value);
+                    }
                 }
             }
 
@@ -46,18 +47,28 @@ namespace CoffeeShop.API.Controllers
             return new Item { Value = concept.Name, Concept = concept.Total };
         }
 
-        /*[AcceptVerbs(WebRequestMethods.Http.Post)]
-        [Route("api/cashier/bill")]
-        public List<Concept> GetBill([FromBody] Dictionary<String, String> MenuItems)
+        [AcceptVerbs(WebRequestMethods.Http.Get)]
+        [Route("api/cashier/pricing/{ItemKey}")]
+        public Item GetConcept(string ItemKey)
         {
-            List<Concept> Bill = new List<Concept>();
+            List<Item> QueryItems = (from pair in this.Request.GetQueryNameValuePairs()
+                                    select new Item { Key = pair.Key, Value = pair.Value }).ToList();
+
+            return GetConcept(ItemKey, QueryItems);
+        }
+
+        [AcceptVerbs(WebRequestMethods.Http.Post)]
+        [Route("api/cashier/bill")]
+        public List<Item> GetBill([FromBody] List<Item> MenuItems)
+        {
+            List<Item> Bill = new List<Item>();
             
-            foreach(String ItemKey in MenuItems.Keys)
+            foreach(Item SelectedMenuItem in MenuItems)
             {
-                Bill.Add(new Concept { Name = ItemKey });
+                Bill.Add(GetConcept(SelectedMenuItem.Key, SelectedMenuItem.Children));
             }
 
             return Bill;
-        }*/
+        }
     }
 }
