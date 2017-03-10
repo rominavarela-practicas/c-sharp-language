@@ -22,12 +22,12 @@ namespace CoffeeShop.Menu.dao
                           {
                               Key = (string)item.Element("key"),
                               Value = (string)item.Element("value"),
-                              BasePrice = (decimal)item.Element("base-price"),
                               Options = (from option in item.Elements("menu-item-options").Elements("menu-item-option")
                                        select new MenuItemOption
                                        {
                                            Key = (string)option.Element("key"),
                                            Value = (string)option.Element("value"),
+                                           Concept = (decimal)option.Element("concept"),
                                            Recipe = (from ingredient in option.Elements("recipe").Elements("ingredient")
                                                      select new Ingredient
                                                      {

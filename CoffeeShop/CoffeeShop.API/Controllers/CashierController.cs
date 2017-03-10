@@ -1,6 +1,8 @@
-﻿using CoffeeShop.Cashier.bo;
+﻿using CoffeeShop.API.Models;
+using CoffeeShop.Cashier.bo;
 using CoffeeShop.Cashier.model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,26 +21,43 @@ namespace CoffeeShop.API.Controllers
         }
 
         [AcceptVerbs(WebRequestMethods.Http.Get)]
-        [Route("api/cashier/{ItemKey}")]
-        public Concept GetConcept(string ItemKey, [FromUri] string[] option)
+        [Route("api/cashier/pricing/{ItemKey}")]
+        public Item GetConcept(string ItemKey)
         {
             string ItemOption = null;
             Dictionary<String, String> RecipeOptions = new Dictionary<String, String>();
 
-            foreach (String o in option)
+            foreach (KeyValuePair<string,string> QueryValue in this.Request.GetQueryNameValuePairs())
             {
-                String[] oSplit = o.Split(':');
-                if (oSplit.Length == 2 && !RecipeOptions.ContainsKey(oSplit[0]))
+                if(QueryValue.Value.Length == 0)
                 {
-                    RecipeOptions.Add(oSplit[0], oSplit[1]);
+                    if( ItemOption == null)
+                    {
+                        ItemOption = QueryValue.Key;
+                    }
                 }
-                else if (oSplit.Length == 1 && ItemOption == null)
+                else if (!RecipeOptions.ContainsKey(QueryValue.Key))
                 {
-                    ItemOption = oSplit[0];
+                    RecipeOptions.Add(QueryValue.Key, QueryValue.Value);
                 }
             }
 
-            return Cashier.GetMenuItemConcept(ItemKey, ItemOption, RecipeOptions);
+            Concept concept = Cashier.GetMenuItemConcept(ItemKey, ItemOption, RecipeOptions);
+            return new Item { Value = concept.Name, Concept = concept.Total };
         }
+
+        /*[AcceptVerbs(WebRequestMethods.Http.Post)]
+        [Route("api/cashier/bill")]
+        public List<Concept> GetBill([FromBody] Dictionary<String, String> MenuItems)
+        {
+            List<Concept> Bill = new List<Concept>();
+            
+            foreach(String ItemKey in MenuItems.Keys)
+            {
+                Bill.Add(new Concept { Name = ItemKey });
+            }
+
+            return Bill;
+        }*/
     }
 }

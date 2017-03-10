@@ -9,5 +9,7 @@
         public decimal PackSize { get; set; }
 
         public decimal PackCost { get; set; }
+        
+        public decimal Concept { get; set; }
     }
 }

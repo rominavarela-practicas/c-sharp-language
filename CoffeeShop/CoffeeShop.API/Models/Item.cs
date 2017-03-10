@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace CoffeeShop.Menu.model
+namespace CoffeeShop.API.Models
 {
-    public class MenuItemOption
+    public class Item
     {
         public string Key { get; set; }
 
@@ -14,6 +13,6 @@ namespace CoffeeShop.Menu.model
 
         public decimal Concept { get; set; }
 
-        public List<Ingredient> Recipe { get; set; }
+        public List<Item> Children { get; set; }
     }
 }

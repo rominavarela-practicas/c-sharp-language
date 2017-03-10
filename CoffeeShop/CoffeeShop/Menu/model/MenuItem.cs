@@ -8,8 +8,6 @@ namespace CoffeeShop.Menu.model
 
         public string Value { get; set; }
 
-        public decimal BasePrice { get; set; }
-
         public List<MenuItemOption> Options { get; set; }
     }
 }

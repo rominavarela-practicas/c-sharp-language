@@ -3,11 +3,11 @@
   <menu-item>
     <key>expresso</key>
     <value>Expresso</value>
-    <base-price>1.0</base-price>
     <menu-item-options>
       <menu-item-option>
-        <key>small</key>
-        <value>Small Shot</value>
+        <key>single</key>
+        <value>Single Shot</value>
+        <concept>2.0</concept>
         <recipe>
           <ingredient>
             <item>coffee</item>
@@ -17,8 +17,9 @@
         </recipe>
       </menu-item-option>
       <menu-item-option>
-        <key>medium</key>
-        <value>Medium Shot</value>
+        <key>double</key>
+        <value>Double Shot</value>
+        <concept>2.5</concept>
         <recipe>
           <ingredient>
             <item>coffee</item>
@@ -32,11 +33,11 @@
   <menu-item>
     <key>americano</key>
     <value>Americano</value>
-    <base-price>0.5</base-price>
     <menu-item-options>
       <menu-item-option>
-        <key>small</key>
-        <value>Small Cup</value>
+        <key>classic</key>
+        <value>Classic Cup</value>
+        <concept>1.5</concept>
         <recipe>
           <ingredient>
             <item>coffee</item>
@@ -46,8 +47,9 @@
         </recipe>
       </menu-item-option>
       <menu-item-option>
-        <key>medium</key>
-        <value>Medium Cup</value>
+        <key>double</key>
+        <value>Double Sized</value>
+        <concept>2.0</concept>
         <recipe>
           <ingredient>
             <item>coffee</item>
@@ -61,11 +63,11 @@
   <menu-item>
     <key>latte</key>
     <value>Latte</value>
-    <base-price>1.5</base-price>
     <menu-item-options>
       <menu-item-option>
-        <key>small</key>
-        <value>Small Cup</value>
+        <key>classic</key>
+        <value>Classic Cup</value>
+        <concept>3.5</concept>
         <recipe>
           <ingredient>
             <item>coffee</item>
@@ -79,14 +81,32 @@
         </recipe>
       </menu-item-option>
       <menu-item-option>
-        <key>medium</key>
-        <value>Medium Cup</value>
+        <key>double</key>
+        <value>Double Sized</value>
+        <concept>4.0</concept>
         <recipe>
           <ingredient>
             <item>coffee</item>
             <item-option>dark-roast</item-option>
             <quantity>0.14</quantity>
           </ingredient>
+          <ingredient>
+            <item>milk</item>
+            <quantity>0.50</quantity>
+          </ingredient>
+        </recipe>
+      </menu-item-option>
+    </menu-item-options>
+  </menu-item>
+  <menu-item>
+    <key>milk</key>
+    <value>Milk</value>
+    <menu-item-options>
+      <menu-item-option>
+        <key>doze</key>
+        <value>Doze</value>
+        <concept>0.5</concept>
+        <recipe>
           <ingredient>
             <item>milk</item>
             <quantity>0.50</quantity>

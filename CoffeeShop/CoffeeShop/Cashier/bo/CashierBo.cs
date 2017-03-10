@@ -22,36 +22,37 @@ namespace CoffeeShop.Cashier.bo
             Menu = new MenuBo();
         }
 
-        public Concept GetMenuItemConcept(string ItemKey, string ItemOption, Dictionary<String, String> RecipeOptions)
+        public Concept GetMenuItemConcept(string ItemKey, string OptionKey, Dictionary<String, String> RecipeOptions)
         {
             MenuItem Item = Menu.GetItem(ItemKey);
-            Concept Concept = new model.Concept { Name = Item.Value , Total = Item.BasePrice };
+            Concept Concept = new model.Concept();
             
-            MenuItemOption SelectedMenuItem = Item.Options[0];
-            if (ItemOption != null)
+            // Custom menu option
+            MenuItemOption SelectedMenuOption = Item.Options[0];
+            if (OptionKey != null)
             {
-                int SelectedIndex = Item.Options.FindIndex(OptionItem => { return OptionItem.Key == ItemOption; });
+                int SelectedIndex = Item.Options.FindIndex(OptionItem => { return OptionItem.Key == OptionKey; });
                 if (SelectedIndex > 0)
                 {
-                    SelectedMenuItem = Item.Options[SelectedIndex];
+                    SelectedMenuOption = Item.Options[SelectedIndex];
                 }
             }
-            Concept.Name += " " + SelectedMenuItem.Value;
+            Concept.Name = Item.Value + " " + SelectedMenuOption.Value;
+            Concept.Total = SelectedMenuOption.Concept;
 
-            foreach (Ingredient RecipeOption in SelectedMenuItem.Recipe)
+            // Custom recipe options
+            foreach (Ingredient IngredientOption in SelectedMenuOption.Recipe)
             {
-                InventoryItemOption SelectedIngredient = RecipeOption.Options[0];
-                if (RecipeOptions.ContainsKey(RecipeOption.Item))
+                if (RecipeOptions.ContainsKey(IngredientOption.Item))
                 {
-                    string QueriedOptionKey = RecipeOptions[RecipeOption.Item];
-                    int SelectedIndex = RecipeOption.Options.FindIndex(OptionItem => { return OptionItem.Key == QueriedOptionKey; });
-                    if (SelectedIndex > 0)
+                    string QueriedOptionKey = RecipeOptions[IngredientOption.Item];
+                    InventoryItemOption SelectedRecipeOption = IngredientOption.Options.Find(OptionItem => { return OptionItem.Key == QueriedOptionKey; });
+                    if (SelectedRecipeOption != null && SelectedRecipeOption.Concept > 0)
                     {
-                        SelectedIngredient = RecipeOption.Options[SelectedIndex];
-                        Concept.Name += " with " + SelectedIngredient.Value + " " + Inventory.GetItem(RecipeOption.Item).Value;
+                        Concept.Name += " ( " + SelectedRecipeOption.Value + " " + Inventory.GetItem(IngredientOption.Item).Value + " )";
+                        Concept.Total += SelectedRecipeOption.Concept;
                     }
                 }
-                Concept.Total += (RecipeOption.Quantity * SelectedIngredient.PackCost / SelectedIngredient.PackSize);
             }
 
             return Concept;

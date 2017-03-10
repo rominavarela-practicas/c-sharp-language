@@ -24,7 +24,8 @@ namespace CoffeeShop.Inventory.dao
                                                 Key = (string)option.Element("key"),
                                                 Value = (string)option.Element("value"),
                                                 PackSize = (decimal)option.Element("pack-size"),
-                                                PackCost = (decimal)option.Element("pack-cost")
+                                                PackCost = (decimal)option.Element("pack-cost"),
+                                                Concept = option.Element("concept") == null ? 0.0M : (decimal)option.Element("concept")
                                             }).ToList()
                            }).ToList();
         }

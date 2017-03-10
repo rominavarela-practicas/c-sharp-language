@@ -35,18 +35,21 @@
         <value>Light</value>
         <pack-size>1</pack-size>
         <pack-cost>1.2</pack-cost>
+        <concept>0.5</concept>
       </inventory-item-option>
       <inventory-item-option>
         <key>soy</key>
         <value>Soy</value>
         <pack-size>1</pack-size>
         <pack-cost>1.2</pack-cost>
+        <concept>0.5</concept>
       </inventory-item-option>
       <inventory-item-option>
         <key>coconout</key>
         <value>Coconout</value>
         <pack-size>1</pack-size>
         <pack-cost>1.5</pack-cost>
+        <concept>1.0</concept>
       </inventory-item-option>
   </inventory-item-options>
   </inventory-item>

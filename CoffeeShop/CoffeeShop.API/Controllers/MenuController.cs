@@ -12,50 +12,53 @@ namespace CoffeeShop.API.Controllers
     public class MenuController : ApiController
     {
         MenuBo Menu;
+        InventoryBo Inventory;
 
         public MenuController()
         {
             Menu = new MenuBo();
+            Inventory = new InventoryBo();
         }
 
         [AcceptVerbs(WebRequestMethods.Http.Get)]
         [Route("api/menu")]
-        public List<KeyValue> GetMenuItems()
+        public List<Item> GetMenuItems()
         {
-            List<KeyValue> Options = new List<KeyValue>();
+            List<Item> Options = new List<Item>();
             foreach(MenuItem item in Menu.Items)
             {
-                Options.Add(new KeyValue { Key = item.Key, Value = item.Value });
+                Options.Add(new Item { Key = item.Key, Value = item.Value + " - " + item.Options[0].Value, Concept = item.Options[0].Concept });
             }
             return Options;
         }
 
         [AcceptVerbs(WebRequestMethods.Http.Get)]
         [Route("api/menu/{ItemKey}/options")]
-        public List<KeyValue> GetMenuItemOptions(string ItemKey)
+        public List<Item> GetMenuItemOptions(string ItemKey)
         {
-            List<KeyValue> Options = new List<KeyValue>();
-            MenuItem Item = Menu.GetItem(ItemKey);
-            InventoryBo Inventory = new InventoryBo();
+            List<Item> Options = new List<Item>();
+            MenuItem SelectedMenuItem = Menu.GetItem(ItemKey);
 
-            List<KeyValue> OptionsBranch = new List<KeyValue>();
-            foreach (MenuItemOption option in Item.Options)
+            // Menu options
+            List<Item> OptionsBranch = new List<Item>();
+            foreach (MenuItemOption option in SelectedMenuItem.Options)
             {
-                OptionsBranch.Add(new KeyValue { Key = option.Key, Value = option.Value });
+                OptionsBranch.Add(new Item { Key = option.Key, Value = option.Value, Concept = option.Concept });
             }
-            Options.Add(new KeyValueTree { Options = OptionsBranch });
+            Options.Add(new Item { Children = OptionsBranch });
 
-            foreach (Ingredient ingredient in Item.Options[0].Recipe)
+            // Recipe options
+            foreach (Ingredient ingredient in SelectedMenuItem.Options[0].Recipe)
             {
                 if(ingredient.Options.Count > 1)
                 {
-                    OptionsBranch = new List<KeyValue>();
+                    OptionsBranch = new List<Item>();
                     foreach (InventoryItemOption option in ingredient.Options)
                     {
-                        OptionsBranch.Add(new KeyValue { Key = option.Key, Value = option.Value });
+                        OptionsBranch.Add(new Item { Key = option.Key, Value = option.Value, Concept = option.Concept });
                     }
                     InventoryItem item = Inventory.GetItem(ingredient.Item);
-                    Options.Add(new KeyValueTree { Key = item.Key, Value = item.Value, Options = OptionsBranch });
+                    Options.Add(new Item { Key = item.Key, Value = item.Value, Children = OptionsBranch });
                 }
             }
 
