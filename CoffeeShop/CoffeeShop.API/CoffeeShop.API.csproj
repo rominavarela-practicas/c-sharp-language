@@ -115,7 +115,55 @@
     <Content Include="App_Data\Menu.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="docs\index.html" />
+    <Content Include="docs\lib\swagger-ui\dist\css\print.css" />
+    <Content Include="docs\lib\swagger-ui\dist\css\reset.css" />
+    <Content Include="docs\lib\swagger-ui\dist\css\screen.css" />
+    <Content Include="docs\lib\swagger-ui\dist\css\style.css" />
+    <Content Include="docs\lib\swagger-ui\dist\css\typography.css" />
+    <Content Include="docs\lib\swagger-ui\dist\images\collapse.gif" />
+    <Content Include="docs\lib\swagger-ui\dist\images\expand.gif" />
+    <Content Include="docs\lib\swagger-ui\dist\images\explorer_icons.png" />
+    <Content Include="docs\lib\swagger-ui\dist\images\favicon-16x16.png" />
+    <Content Include="docs\lib\swagger-ui\dist\images\favicon-32x32.png" />
+    <Content Include="docs\lib\swagger-ui\dist\images\favicon.ico" />
+    <Content Include="docs\lib\swagger-ui\dist\images\logo_small.png" />
+    <Content Include="docs\lib\swagger-ui\dist\images\pet_store_api.png" />
+    <Content Include="docs\lib\swagger-ui\dist\images\throbber.gif" />
+    <Content Include="docs\lib\swagger-ui\dist\images\wordnik_api.png" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\ca.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\el.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\en.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\es.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\fr.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\geo.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\it.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\ja.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\ko-kr.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\pl.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\pt.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\ru.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\tr.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\translator.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lang\zh-cn.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\backbone-min.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\es5-shim.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\handlebars-4.0.5.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\highlight.9.1.0.pack.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\highlight.9.1.0.pack_extended.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\jquery-1.8.0.min.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\jquery.ba-bbq.min.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\jquery.slideto.min.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\jquery.wiggle.min.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\js-yaml.min.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\jsoneditor.min.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\lodash.min.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\marked.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\object-assign-pollyfill.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\sanitize-html.min.js" />
+    <Content Include="docs\lib\swagger-ui\dist\lib\swagger-oauth.js" />
     <Content Include="Global.asax" />
+    <Content Include="docs\lib\swagger-ui\dist\swagger-ui.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +181,9 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="docs\lib\swagger-ui\dist\fonts\DroidSans-Bold.ttf" />
+    <Content Include="docs\lib\swagger-ui\dist\fonts\DroidSans.ttf" />
+    <Content Include="docs\swagger.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

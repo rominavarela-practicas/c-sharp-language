@@ -1,0 +1,44 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "title": "Coffee Shop API",
+    "description": "C-Sharp tour in a Coffee Shop https://github.com/stacklog/c-sharp-language",
+    "version": "4.0"
+  },
+  "schemes": [ "http" ],
+  "basePath": "/api",
+  "paths": {
+    "/menu": {
+      "get": {
+        "summary": "Finds the menu items.",
+        "produces": [ "application/json", "application/xml" ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": { "type": "array", "$ref": "#/definitions/MenuItem" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "MenuItem": {
+      "type": "object",
+      "required": [ "Key", "Value" ],
+      "properties": {
+        "Key": {
+          "type": "string",
+          "example": "expresso"
+        },
+        "Value": {
+          "type": "string",
+          "example": "Expresso - Single Shot"
+        },
+        "Concept": {
+          "type": "number",
+          "example": 2.0
+        }
+      }
+    }
+  }
+}
