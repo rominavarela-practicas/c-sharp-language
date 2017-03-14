@@ -17,9 +17,8 @@ namespace CoffeeShop.Cashier.bo
             menu = new MenuBo();
         }
 
-        public Concept CalcConcept(string itemKey, string optionKey, Dictionary<String, String> recipeOptions)
+        public Concept CalcConcept(MenuItem selectedItem, string optionKey, Dictionary<String, String> recipeOptions)
         {
-            MenuItem selectedItem = menu.GetItem(itemKey);
             MenuItemOption selectedOption = selectedItem.Options[0];
             Concept concept = new model.Concept();
             

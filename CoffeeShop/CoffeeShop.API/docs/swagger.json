@@ -10,11 +10,11 @@
   "paths": {
     "/menu": {
       "get": {
-        "summary": "Finds the menu items.",
+        "summary": "Find the MenuItems.",
         "produces": [ "application/json", "application/xml" ],
         "responses": {
           "200": {
-            "description": "The list of menu items.",
+            "description": "The list of MenuItems.",
             "schema": {
               "type": "array",
               "items": {
@@ -27,7 +27,7 @@
     },
     "/menu/{menuItemKey}/options": {
       "get": {
-        "summary": "Find the options for a menu item.",
+        "summary": "Find the OptionTrees for a MenuItem.",
         "produces": [ "application/json", "application/xml" ],
         "parameters": [
           {
@@ -39,7 +39,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The list of menu item options.",
+            "description": "The list of OptionTrees for the specified MenuItem.",
             "schema": {
               "type": "array",
               "items": {
@@ -47,8 +47,40 @@
               }
             }
           },
-          "400": {
-            "description": "The requested menu item does not exist."
+          "404": {
+            "description": "The specified MenuItem does not exist."
+          }
+        }
+      }
+    },
+    "/cashier/pricing/{menuItemKey}": {
+      "get": {
+        "summary": "Get the PricingConcept for a MenuItem.",
+        "produces": [ "application/json", "application/xml" ],
+        "parameters": [
+          {
+            "name": "menuItemKey",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "option",
+            "in": "query",
+            "type": "string",
+            "description": "A pair of an OptionTree Key with an OptionLeaf Key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The custom PricingConcept for the MenuItem",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/PrincingConcept"
+            }
+          },
+          "404": {
+            "description": "The specified MenuItem does not exist."
           }
         }
       }
@@ -104,6 +136,20 @@
         "Value": {
           "type": "string",
           "example": "Soy"
+        }
+      }
+    },
+    "PrincingConcept": {
+      "type": "object",
+      "required": [ "Value", "Concept" ],
+      "properties": {
+        "Value": {
+          "type": "string",
+          "example": "Americano - Double Sized"
+        },
+        "Concept": {
+          "type": "number",
+          "example": 2.0
         }
       }
     }
