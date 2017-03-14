@@ -64,7 +64,7 @@
             "name": "option",
             "in": "query",
             "type": "string",
-            "description": "A pair of an OptionTree Key with an OptionLeaf Key"
+            "description": "OptionTree-Key / OptionLeaf-Key pairs."
           }
         ],
         "responses": {
@@ -100,9 +100,7 @@
             "description": "The list of PricingConcepts",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/definitions/PrincingConcept"
-              }
+              "items": { "$ref": "#/definitions/PrincingConcept" }
             }
           }
         }
@@ -116,73 +114,68 @@
     },
     "MenuItemValue": {
       "type": "string",
-      "example": "Latte - Classic Cup"
+      "example": "Latte"
     },
-    "OptionTreeKey": {
+    "PricingConceptValue": {
+      "type": "string",
+      "example": "Latte Classic Coup ( Soy Milk )"
+    },
+    "PricingConceptConcept": {
+      "type": "number",
+      "example": 4.0
+    },
+    "OptionsTreeKey": {
       "type": "string",
       "example": "milk"
     },
-    "OptionTreeValue": {
+    "OptionsTreeValue": {
       "type": "string",
       "example": "Milk"
     },
-    "OptionLeafKey": {
+    "OptionsLeafKey": {
       "type": "string",
       "example": "soy"
     },
-    "OptionLeafValue": {
+    "OptionsLeafValue": {
       "type": "string",
       "example": "Soy"
     },
     "MenuItem": {
-      "type": "object",
-      "required": [ "Key" ],
       "properties": {
-        "Key": {
-          "type": "string",
-          "$ref": "#/definitions/MenuItemKey"
-        },
-        "Value": {
-          "type": "string",
-          "$ref": "#/definitions/MenuItemValue"
-        },
-        "Concept": {
-          "type": "number",
-          "example": 2.0
-        }
+        "Key": { "$ref": "#/definitions/MenuItemKey" },
+        "Value": { "$ref": "#/definitions/MenuItemValue" },
+        "Concept": { "$ref": "#/definitions/PricingConceptConcept" }
       }
     },
     "OptionsTree": {
       "type": "object",
       "properties": {
-        "Key": { "$ref": "#/definitions/OptionTreeKey" },
-        "Value": { "$ref": "#/definitions/OptionTreeValue" },
+        "Key": { "$ref": "#/definitions/OptionsTreeKey" },
+        "Value": { "$ref": "#/definitions/OptionsTreeValue" },
         "Children": {
           "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "Key": { "$ref": "#/definitions/OptionLeafKey" },
-              "Value": { "$ref": "#/definitions/OptionLeafValue" }
-            }
-          }
+          "items": { "$ref": "#/definitions/OptionsLeaf" }
         }
+      }
+    },
+    "OptionsLeaf": {
+      "type": "object",
+      "properties": {
+        "Key": { "$ref": "#/definitions/OptionsLeafKey" },
+        "Value": { "$ref": "#/definitions/OptionsLeafValue" }
       }
     },
     "CustomMenuItem": {
       "type": "object",
       "properties": {
-        "Key": {
-          "type": "string",
-          "$ref": "#/definitions/MenuItemKey"
-        },
+        "Key": { "$ref": "#/definitions/MenuItemKey"},
         "Children": {
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
-              "Key": { "$ref": "#/definitions/OptionTreeKey" },
-              "Value": { "$ref": "#/definitions/OptionLeafKey" }
+              "Key": { "$ref": "#/definitions/OptionsTreeKey" },
+              "Value": { "$ref": "#/definitions/OptionsLeafKey" }
             }
           }
         }
@@ -192,14 +185,8 @@
       "type": "object",
       "required": [ "Value", "Concept" ],
       "properties": {
-        "Value": {
-          "type": "string",
-          "example": "Americano - Double Sized"
-        },
-        "Concept": {
-          "type": "number",
-          "example": 2.0
-        }
+        "Value": { "$ref": "#/definitions/PricingConceptValue" },
+        "Concept": { "$ref": "#/definitions/PricingConceptConcept" }
       }
     }
   }
