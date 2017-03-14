@@ -5,6 +5,7 @@ using CoffeeShop.Menu.bo;
 using CoffeeShop.Menu.model;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace CoffeeShop.API.Controllers
@@ -36,6 +37,10 @@ namespace CoffeeShop.API.Controllers
         {
             List<Item> options = new List<Item>();
             MenuItem selectedItem = menu.GetItem(itemKey);
+            if(selectedItem == null )
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
 
             // Menu options
             List<Item> optionsChildren = new List<Item>();
@@ -43,7 +48,7 @@ namespace CoffeeShop.API.Controllers
             {
                 optionsChildren.Add(new Item { Key = option.Key, Value = option.Value, Concept = option.Concept });
             }
-            options.Add(new Item { Children = optionsChildren });
+            options.Add(new Item { Key = "option", Children = optionsChildren });
 
             // Recipe options
             foreach (Ingredient ingredient in selectedItem.Options[0].Recipe)

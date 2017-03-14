@@ -14,8 +14,41 @@
         "produces": [ "application/json", "application/xml" ],
         "responses": {
           "200": {
-            "description": "success",
-            "schema": { "type": "array", "$ref": "#/definitions/MenuItem" }
+            "description": "The list of menu items.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MenuItem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/menu/{menuItemKey}/options": {
+      "get": {
+        "summary": "Find the options for a menu item.",
+        "produces": [ "application/json", "application/xml" ],
+        "parameters": [
+          {
+            "name": "menuItemKey",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of menu item options.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OptionsTree"
+              }
+            }
+          },
+          "400": {
+            "description": "The requested menu item does not exist."
           }
         }
       }
@@ -24,7 +57,7 @@
   "definitions": {
     "MenuItem": {
       "type": "object",
-      "required": [ "Key", "Value" ],
+      "required": [ "Key" ],
       "properties": {
         "Key": {
           "type": "string",
@@ -37,6 +70,40 @@
         "Concept": {
           "type": "number",
           "example": 2.0
+        }
+      }
+    },
+    "OptionsTree": {
+      "type": "object",
+      "required": [ "Key" ],
+      "properties": {
+        "Key": {
+          "type": "string",
+          "example": "milk"
+        },
+        "Value": {
+          "type": "string",
+          "example": "Milk"
+        },
+        "Children": {
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/OptionsLeaf"
+            }
+          }
+      }
+    },
+    "OptionsLeaf": {
+      "type": "object",
+      "required": [ "Key" ],
+      "properties": {
+        "Key": {
+          "type": "string",
+          "example": "soy"
+        },
+        "Value": {
+          "type": "string",
+          "example": "Soy"
         }
       }
     }
