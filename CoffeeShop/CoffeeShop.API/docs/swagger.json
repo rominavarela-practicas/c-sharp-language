@@ -17,9 +17,7 @@
             "description": "The list of MenuItems.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/definitions/MenuItem"
-              }
+              "items": { "$ref": "#/definitions/MenuItem" }
             }
           }
         }
@@ -42,9 +40,7 @@
             "description": "The list of OptionTrees for the specified MenuItem.",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/definitions/OptionsTree"
-              }
+              "items": { "$ref": "#/definitions/OptionsTree" }
             }
           },
           "404": {
@@ -55,7 +51,7 @@
     },
     "/cashier/pricing/{menuItemKey}": {
       "get": {
-        "summary": "Get the PricingConcept for a MenuItem.",
+        "summary": "Get the PricingConcept for a customized MenuItem.",
         "produces": [ "application/json", "application/xml" ],
         "parameters": [
           {
@@ -84,20 +80,71 @@
           }
         }
       }
+    },
+    "/cashier/bill": {
+      "post": {
+        "summary": "Get a list of PrincingConcepts for a list of customized MenuItems.",
+        "produces": [ "application/json", "application/xml" ],
+        "parameters": [
+          {
+            "name": "item",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/CustomMenuItem" }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of PricingConcepts",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PrincingConcept"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "MenuItemKey": {
+      "type": "string",
+      "example": "latte"
+    },
+    "MenuItemValue": {
+      "type": "string",
+      "example": "Latte - Classic Cup"
+    },
+    "OptionTreeKey": {
+      "type": "string",
+      "example": "milk"
+    },
+    "OptionTreeValue": {
+      "type": "string",
+      "example": "Milk"
+    },
+    "OptionLeafKey": {
+      "type": "string",
+      "example": "soy"
+    },
+    "OptionLeafValue": {
+      "type": "string",
+      "example": "Soy"
+    },
     "MenuItem": {
       "type": "object",
       "required": [ "Key" ],
       "properties": {
         "Key": {
           "type": "string",
-          "example": "expresso"
+          "$ref": "#/definitions/MenuItemKey"
         },
         "Value": {
           "type": "string",
-          "example": "Expresso - Single Shot"
+          "$ref": "#/definitions/MenuItemValue"
         },
         "Concept": {
           "type": "number",
@@ -107,35 +154,37 @@
     },
     "OptionsTree": {
       "type": "object",
-      "required": [ "Key" ],
+      "properties": {
+        "Key": { "$ref": "#/definitions/OptionTreeKey" },
+        "Value": { "$ref": "#/definitions/OptionTreeValue" },
+        "Children": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Key": { "$ref": "#/definitions/OptionLeafKey" },
+              "Value": { "$ref": "#/definitions/OptionLeafValue" }
+            }
+          }
+        }
+      }
+    },
+    "CustomMenuItem": {
+      "type": "object",
       "properties": {
         "Key": {
           "type": "string",
-          "example": "milk"
-        },
-        "Value": {
-          "type": "string",
-          "example": "Milk"
+          "$ref": "#/definitions/MenuItemKey"
         },
         "Children": {
           "type": "array",
           "items": {
-              "$ref": "#/definitions/OptionsLeaf"
+            "type": "object",
+            "properties": {
+              "Key": { "$ref": "#/definitions/OptionTreeKey" },
+              "Value": { "$ref": "#/definitions/OptionLeafKey" }
             }
           }
-      }
-    },
-    "OptionsLeaf": {
-      "type": "object",
-      "required": [ "Key" ],
-      "properties": {
-        "Key": {
-          "type": "string",
-          "example": "soy"
-        },
-        "Value": {
-          "type": "string",
-          "example": "Soy"
         }
       }
     },
